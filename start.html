@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ff9a9e" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#2c2c2e" media="(prefers-color-scheme: dark)">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>❤️ Для тебя ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+            height: 100dvh;
+            width: 100dvw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at 30% 30%, #ffb6c1, #ff8da1);
+            position: relative;
+            overflow: hidden;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: clamp(20px, 10vw, 60px);
+            opacity: 0.15;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .heart:nth-child(1) { top: 5%; left: 5%; animation-delay: 0s; }
+        .heart:nth-child(2) { bottom: 10%; right: 5%; animation-delay: 1s; transform: rotate(15deg); }
+        .heart:nth-child(3) { top: 20%; right: 15%; animation-delay: 2s; transform: rotate(-10deg); }
+        .heart:nth-child(4) { bottom: 20%; left: 10%; animation-delay: 3s; transform: rotate(20deg); }
+        .heart:nth-child(5) { top: 50%; left: 50%; animation-delay: 4s; transform: translate(-50%, -50%) rotate(5deg); }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 44px;
+            padding: 36px 24px;
+            width: 90%;
+            max-width: 380px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            text-align: center;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: cardAppear 0.6s cubic-bezier(0.2, 0.9, 0.3, 1);
+        }
+
+        .login-card h1 {
+            font-size: clamp(34px, 9vw, 44px);
+            font-weight: 700;
+            background: linear-gradient(135deg, #d43f4f, #b03a4a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .login-card p {
+            font-size: 17px;
+            color: #6b4e4e;
+            margin-bottom: 30px;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .login-card input {
+            width: 100%;
+            padding: 18px 22px;
+            font-size: 17px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 140, 170, 0.3);
+            border-radius: 28px;
+            outline: none;
+            transition: all 0.2s ease;
+            color: #1c1c1e;
+            font-weight: 400;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .login-card input:focus {
+            border-color: #ff6f91;
+            box-shadow: 0 0 0 4px rgba(255, 111, 145, 0.2);
+        }
+
+        .login-card input::placeholder {
+            color: #999;
+            font-weight: 300;
+        }
+
+        .login-card button {
+            background: #ff6f91;
+            color: white;
+            border: none;
+            padding: 18px 24px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 30px;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 8px 20px rgba(255, 111, 145, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            letter-spacing: 0.3px;
+            margin-bottom: 16px;
+        }
+
+        .login-card button:active {
+            transform: scale(0.97);
+            background: #e65a7e;
+            box-shadow: 0 4px 12px rgba(255, 111, 145, 0.4);
+        }
+
+        .error-message {
+            min-height: 24px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #ff3b30;
+            transition: color 0.3s;
+        }
+
+        @keyframes cardAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .shake {
+            animation: shake 0.3s ease-in-out;
+        }
+
+        .success {
+            color: #34c759 !important;
+        }
+
+        .hint {
+            font-size: 14px;
+            color: #999;
+            margin-top: 16px;
+            opacity: 0.8;
+        }
+
+        .hint span {
+            color: #ff6f91;
+            font-weight: 600;
+            background: rgba(255, 111, 145, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        @supports (padding: max(0px)) {
+            body {
+                padding-top: max(env(safe-area-inset-top), 20px);
+                padding-bottom: max(env(safe-area-inset-bottom), 20px);
+            }
+        }
+
+        @media (min-width: 428px) {
+            .login-card {
+                max-width: 420px;
+                padding: 44px 32px;
+            }
+            
+            .login-card h1 {
+                font-size: 48px;
+            }
+            
+            .login-card p {
+                font-size: 18px;
+            }
+            
+            .login-card button {
+                font-size: 20px;
+            }
+        }
+
+        @media (orientation: landscape) and (max-height: 500px) {
+            .login-card {
+                padding: 20px 30px;
+            }
+            
+            .login-card h1 {
+                font-size: 32px;
+                margin-bottom: 4px;
+            }
+            
+            .login-card p {
+                margin-bottom: 15px;
+            }
+            
+            .login-card input,
+            .login-card button {
+                padding: 12px 20px;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: radial-gradient(circle at 30% 30%, #5a3e42, #2c1e20);
+            }
+
+            .login-card {
+                background: rgba(30, 30, 32, 0.85);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .login-card h1 {
+                background: linear-gradient(135deg, #ffb6c1, #ff8da1);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+
+            .login-card p {
+                color: #d4b8bc;
+            }
+
+            .login-card input {
+                background: rgba(45, 45, 50, 0.9);
+                border-color: rgba(255, 140, 170, 0.2);
+                color: #ffffff;
+            }
+
+            .login-card input:focus {
+                border-color: #ff8da1;
+                box-shadow: 0 0 0 4px rgba(255, 141, 161, 0.2);
+            }
+
+            .login-card button {
+                background: #ff8da1;
+                box-shadow: 0 8px 20px rgba(255, 141, 161, 0.2);
+            }
+
+            .hint span {
+                background: rgba(255, 141, 161, 0.15);
+                color: #ffb6c1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="floating-hearts">
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+    </div>
+
+    <div class="login-card">
+        <h1>❤️Секретик❤️</h1>
+        <p>Введи пароль, чтобы войти</p>
+        
+        <div class="input-wrapper">
+            <input type="password" id="passwordInput" placeholder="Введи пароль..." autofocus>
+        </div>
+        
+        <button onclick="checkPassword()">Открыть</button>
+        
+        <div class="error-message" id="errorMessage"></div>
+        
+        <div class="hint">
+            <span>💕 Как я тебя передразниваю? 💕</span>
+        </div>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value;
+            const errorDiv = document.getElementById('errorMessage');
+            const loginCard = document.querySelector('.login-card');
+            const correctPassword = "бебебе";
+
+            const cleanPassword = password.trim().toLowerCase();
+            const cleanCorrect = correctPassword.toLowerCase();
+
+            if (cleanPassword === cleanCorrect) {
+                errorDiv.textContent = "✅ Любимая, добро пожаловать!";
+                errorDiv.classList.add('success');
+                
+                if (window.navigator && window.navigator.vibrate) {
+                    window.navigator.vibrate([50, 50, 50]); // Три коротких сигнала
+                }
+                
+                setTimeout(() => {
+                    window.location.href = "secret.html";
+                }, 800);
+            } else {
+                errorDiv.textContent = "Неа 😢 Попробуй еще раз!";
+                errorDiv.classList.remove('success');
+                
+                loginCard.classList.add('shake');
+                setTimeout(() => {
+                    loginCard.classList.remove('shake');
+                }, 300);
+                
+                if (window.navigator && window.navigator.vibrate) {
+                    window.navigator.vibrate(100);
+                }
+                
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        document.getElementById('passwordInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                checkPassword();
+            }
+        });
+
+        document.addEventListener('touchstart', function() {}, {passive: true});
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        if (window.navigator.standalone) {
+            document.body.style.paddingTop = 'env(safe-area-inset-top)';
+        }
+    </script>
+
+</body>
+</html>
